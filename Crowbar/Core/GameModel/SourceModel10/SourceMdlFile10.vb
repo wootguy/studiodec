@@ -154,7 +154,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -193,7 +193,7 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-
+			Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 		End If
 	End Sub
 
@@ -239,6 +239,7 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+			Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 		End If
 	End Sub
 
@@ -276,6 +277,7 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+			Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 		End If
 	End Sub
 
@@ -357,8 +359,10 @@ Public Class SourceMdlFile10
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
 
 					Me.ReadEvents(aSequence)
+					Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 
 					Me.ReadPivots(aSequence)
+					Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -403,6 +407,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -448,6 +453,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -504,13 +510,12 @@ Public Class SourceMdlFile10
 
 					If animationValuesEndInputFileStreamPosition > 0 Then
 						inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
-
+						Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 						Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 					End If
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					'Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aSequence.theAnimations")
-
+					Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -561,12 +566,10 @@ Public Class SourceMdlFile10
 
 				If modelsEndInputFileStreamPosition > 0 Then
 					inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
-
+					Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				End If
 
-				'fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				'Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theBodyParts")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -609,11 +612,13 @@ Public Class SourceMdlFile10
 
 					Me.ReadTextureData(aTexture)
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+					Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -652,6 +657,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -995,6 +1001,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1018,6 +1025,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1043,6 +1051,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1068,6 +1077,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1108,6 +1118,7 @@ Public Class SourceMdlFile10
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				Next
 
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1168,6 +1179,7 @@ Public Class SourceMdlFile10
 				'Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
+				Me.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4)
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1207,6 +1219,15 @@ Public Class SourceMdlFile10
 		Catch ex As Exception
 			Dim debug As Integer = 4242
 		End Try
+	End Sub
+
+	Public Sub LogToEndAndAlignToNextStart(ByVal inputFileReader As BinaryReader, ByVal fileOffsetEnd As Long, ByVal byteAlignmentCount As Integer)
+		Dim fileOffsetStart2 As Long
+		Dim fileOffsetEnd2 As Long
+
+		fileOffsetStart2 = fileOffsetEnd + 1
+		fileOffsetEnd2 = MathModule.AlignLong(fileOffsetStart2, byteAlignmentCount) - 1
+		inputFileReader.BaseStream.Seek(fileOffsetEnd2 + 1, SeekOrigin.Begin)
 	End Sub
 
 #End Region
