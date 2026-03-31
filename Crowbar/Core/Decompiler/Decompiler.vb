@@ -754,6 +754,7 @@ Public Class Decompiler
 			Me.theLogFileStream.Flush()
 		End If
 
+		Console.WriteLine(line)
 		Me.ReportProgress(progressValue, line)
 	End Sub
 
