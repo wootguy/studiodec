@@ -6,7 +6,7 @@ I want to isolate the decompilation code and convert this to C++ some day so we 
 
 # Usage
 ```
-Crowbar.exe path\to\model.mdl output\folder\
+studiodec path\to\model.mdl output\folder\
 ```
 
 You must use back slashes. If decompiling a model in the same folder, prefix the path with ".\" as in ".\model.mdl". Otherwise you get a misleading "path too long" error.

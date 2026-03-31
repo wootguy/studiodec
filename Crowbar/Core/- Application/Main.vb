@@ -14,28 +14,30 @@ Module Main
 
 		Dim args() As String = Environment.GetCommandLineArgs()
 
-		Try
-			TheApp = New App()
-			TheApp.CreateAppSettings()
+		If args.Length >= 3 Then
+			Try
+				TheApp = New App()
+				TheApp.CreateAppSettings()
 
-			Dim input As String = args(1)
-			Dim output As String = args(2)
+				Dim input As String = args(1)
+				Dim output As String = args(2)
 
-			TheApp.Settings.DecompileMdlPathFileName = input
-			TheApp.Settings.DecompileMode = InputOptions.File  ' or Folder / FolderRecursion
-			TheApp.Settings.DecompileUseNonValveUvConversionIsChecked = True
+				TheApp.Settings.DecompileMdlPathFileName = input
+				TheApp.Settings.DecompileMode = InputOptions.File  ' or Folder / FolderRecursion
+				TheApp.Settings.DecompileUseNonValveUvConversionIsChecked = True
 
-			' Create the object that owns Decompile()
-			Dim decompiler As New Decompiler()
-			Dim result As StatusMessage = decompiler.Decompile(output)
+				' Create the object that owns Decompile()
+				Dim decompiler As New Decompiler()
+				Dim result As StatusMessage = decompiler.Decompile(output)
 
-			TheApp.Dispose()
-			Return 0
+				TheApp.Dispose()
+				Return 0
 
-		Catch ex As Exception
-			Console.WriteLine("Error: " & ex.Message)
-			Return 1
-		End Try
+			Catch ex As Exception
+				Console.WriteLine("Error: " & ex.Message)
+				Return 1
+			End Try
+		End If
 
 		Console.WriteLine("Usage: studiodec .\model.mdl output\path")
 		Return 0

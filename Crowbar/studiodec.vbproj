@@ -6,11 +6,11 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{632B4ABC-9AF3-480D-8640-FDA6FB637AD7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <StartupObject>Sub Main</StartupObject>
     <RootNamespace>Crowbar</RootNamespace>
-    <AssemblyName>Crowbar</AssemblyName>
-    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <AssemblyName>studiodec</AssemblyName>
+    <MyType>Console</MyType>
     <OptionStrict>On</OptionStrict>
     <ApplicationIcon>
     </ApplicationIcon>
@@ -83,6 +83,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -150,6 +151,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
