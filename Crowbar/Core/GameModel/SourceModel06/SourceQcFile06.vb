@@ -70,10 +70,6 @@ Public Class SourceQcFile06
 
 #Region "Methods"
 
-	Public Sub WriteHeaderComment()
-		Common.WriteHeaderComment(Me.theOutputFileStreamWriter)
-	End Sub
-
 	Public Sub WriteBodyGroupCommand()
 		Dim line As String = ""
 		Dim aBodyPart As SourceMdlBodyPart06

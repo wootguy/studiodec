@@ -195,7 +195,6 @@ Public Class SourceModel06
 		If Me.theMdlFileData IsNot Nothing Then
 			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugMdlFileNameSuffix)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.WriteAccessedBytesDebugFile(debugPathFileName, Me.theMdlFileData.theFileSeekLog)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
 		End If
 
@@ -277,8 +276,6 @@ Public Class SourceModel06
 		Dim qcFile As New SourceQcFile06(Me.theOutputFileTextWriter, Me.theQcPathFileName, Me.theMdlFileData, Me.theName)
 
 		Try
-			qcFile.WriteHeaderComment()
-
 			qcFile.WriteModelNameCommand()
 
 			qcFile.WriteBodyGroupCommand()
@@ -321,8 +318,6 @@ Public Class SourceModel06
 		Dim smdFile As New SourceSmdFile06(Me.theOutputFileTextWriter, Me.theMdlFileData)
 
 		Try
-			smdFile.WriteHeaderComment()
-
 			smdFile.WriteHeaderSection()
 			smdFile.WriteNodesSection()
 			smdFile.WriteSkeletonSection()
@@ -343,8 +338,6 @@ Public Class SourceModel06
 			Me.theOutputFileTextWriter = File.CreateText(smdPathFileName)
 
 			Dim smdFile As New SourceSmdFile06(Me.theOutputFileTextWriter, Me.theMdlFileData)
-
-			smdFile.WriteHeaderComment()
 
 			smdFile.WriteHeaderSection()
 			smdFile.WriteNodesSection()

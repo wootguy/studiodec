@@ -7,15 +7,9 @@ Public MustInherit Class SourceModel
 
 	Public Shared Function Create(ByVal mdlPathFileName As String, ByVal overrideVersion As SupportedMdlVersion, ByRef version As Integer) As SourceModel
 		Dim model As SourceModel = Nothing
-		Dim storedVersion As Integer
 
 		Try
-			storedVersion = SourceModel.GetVersion(mdlPathFileName)
-			If overrideVersion = SupportedMdlVersion.DoNotOverride Then
-				version = storedVersion
-			Else
-				version = CInt(EnumHelper.GetDescription(overrideVersion))
-			End If
+			version = SourceModel.GetVersion(mdlPathFileName)
 
 			'If version = 4 Then
 			'	'NOT IMPLEMENTED YET.
@@ -31,63 +25,6 @@ Public MustInherit Class SourceModel
 				'ElseIf version = 14 Then
 				'NOT IMPLEMENTED YET.
 				'model = New SourceModel14(mdlPathFileName, version)
-			ElseIf version = 2531 Then
-				model = New SourceModel2531(mdlPathFileName, version)
-			ElseIf version = 27 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel31(mdlPathFileName, version)
-			ElseIf version = 28 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel31(mdlPathFileName, version)
-			ElseIf version = 29 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel31(mdlPathFileName, version)
-			ElseIf version = 30 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel31(mdlPathFileName, version)
-			ElseIf version = 31 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel31(mdlPathFileName, version)
-			ElseIf version = 32 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel32(mdlPathFileName, version)
-			ElseIf version = 35 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel36(mdlPathFileName, version)
-			ElseIf version = 36 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel36(mdlPathFileName, version)
-			ElseIf version = 37 Then
-				'NOT FULLY IMPLEMENTED YET.
-				model = New SourceModel37(mdlPathFileName, version)
-			ElseIf version = 44 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 45 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 46 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 47 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 48 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 49 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 52 Then
-				'TODO: Finish.
-				model = New SourceModel52(mdlPathFileName, version)
-			ElseIf version = 53 Then
-				'TODO: Finish.
-				model = New SourceModel53(mdlPathFileName, version)
-			ElseIf version = 54 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 55 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 56 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 58 Then
-				model = New SourceModel49(mdlPathFileName, version)
-			ElseIf version = 59 Then
-				model = New SourceModel49(mdlPathFileName, version)
 			Else
 				' Version not implemented.
 				model = Nothing
@@ -455,13 +392,13 @@ Public MustInherit Class SourceModel
 		Return status
 	End Function
 
-	Public Overridable Function WriteMeshSmdFile(ByVal smdPathFileName As String, ByVal lodIndex As Integer, ByVal aVtxModel As SourceVtxModel07, ByVal aModel As SourceMdlModel, ByVal bodyPartVertexIndexStart As Integer) As String
+	Public Overridable Function WriteMeshSmdFile(ByVal smdPathFileName As String, ByVal lodIndex As Integer, ByVal aModel As SourceMdlModel, ByVal bodyPartVertexIndexStart As Integer) As String
 		Dim status As String = "Success"
 
 		Try
 			Me.theOutputFileTextWriter = File.CreateText(smdPathFileName)
 
-			Me.WriteMeshSmdFile(lodIndex, aVtxModel, aModel, bodyPartVertexIndexStart)
+			'Me.WriteMeshSmdFile(lodIndex, aModel, bodyPartVertexIndexStart)
 		Catch ex As PathTooLongException
 			status = "ERROR: Crowbar tried to create """ + smdPathFileName + """ but the system gave this message: " + ex.Message
 		Catch ex As ArgumentException
@@ -514,27 +451,6 @@ Public MustInherit Class SourceModel
 				If Me.theOutputFileTextWriter.BaseStream IsNot Nothing Then
 					Me.theOutputFileTextWriter.Flush()
 				End If
-				Me.theOutputFileTextWriter.Close()
-			End If
-		End Try
-
-		Return status
-	End Function
-
-	Public Overridable Function WriteVertexAnimationVtaFile(ByVal vtaPathFileName As String, ByVal bodyPart As SourceMdlBodyPart) As String
-		Dim status As String = "Success"
-
-		Try
-			Me.theOutputFileTextWriter = File.CreateText(vtaPathFileName)
-
-			Me.WriteVertexAnimationVtaFile(bodyPart)
-		Catch ex As PathTooLongException
-			status = "ERROR: Crowbar tried to create """ + vtaPathFileName + """ but the system gave this message: " + ex.Message
-		Catch ex As Exception
-			Dim debug As Integer = 4242
-		Finally
-			If Me.theOutputFileTextWriter IsNot Nothing Then
-				Me.theOutputFileTextWriter.Flush()
 				Me.theOutputFileTextWriter.Close()
 			End If
 		End Try
@@ -712,7 +628,7 @@ Public MustInherit Class SourceModel
 
 	End Sub
 
-	Protected Overridable Sub WriteMeshSmdFile(ByVal lodIndex As Integer, ByVal aVtxModel As SourceVtxModel07, ByVal aModel As SourceMdlModel, ByVal bodyPartVertexIndexStart As Integer)
+	Protected Overridable Sub WriteMeshSmdFile(ByVal lodIndex As Integer, ByVal aModel As SourceMdlModel, ByVal bodyPartVertexIndexStart As Integer)
 
 	End Sub
 
@@ -721,10 +637,6 @@ Public MustInherit Class SourceModel
 	End Sub
 
 	Protected Overridable Sub WriteBoneAnimationSmdFile(ByVal aSequenceDesc As SourceMdlSequenceDescBase, ByVal anAnimationDesc As SourceMdlAnimationDescBase)
-
-	End Sub
-
-	Protected Overridable Sub WriteVertexAnimationVtaFile(ByVal bodyPart As SourceMdlBodyPart)
 
 	End Sub
 
@@ -834,29 +746,6 @@ Public MustInherit Class SourceModel
 		RaiseEvent SourceModelProgress(Me, New SourceModelProgressEventArgs(progress, message))
 	End Sub
 
-	Protected Function WriteAccessedBytesDebugFile(ByVal debugPathFileName As String, ByVal fileSeekLog As FileSeekLog) As String
-		Dim status As String = "Success"
-
-		Try
-			Me.theOutputFileTextWriter = File.CreateText(debugPathFileName)
-
-			Dim debugFile As New AccessedBytesDebugFile(Me.theOutputFileTextWriter)
-			debugFile.WriteHeaderComment()
-			debugFile.WriteFileSeekLog(fileSeekLog)
-		Catch ex As PathTooLongException
-			status = "ERROR: Crowbar tried to create """ + debugPathFileName + """ but the system gave this message: " + ex.Message
-		Catch ex As Exception
-			Dim debug As Integer = 4242
-		Finally
-			If Me.theOutputFileTextWriter IsNot Nothing Then
-				Me.theOutputFileTextWriter.Flush()
-				Me.theOutputFileTextWriter.Close()
-			End If
-		End Try
-
-		Return status
-	End Function
-
 #End Region
 
 #Region "Private Delegates"
@@ -892,9 +781,6 @@ Public MustInherit Class SourceModel
 		End If
 
 		Dim extraVersionText As String = ""
-		If mdlVersionOverride <> SupportedMdlVersion.DoNotOverride Then
-			extraVersionText = "   Model version override: " + EnumHelper.GetDescription(mdlVersionOverride)
-		End If
 		ioTextLines.Add("MDL file version: " + Me.theMdlFileDataGeneric.version.ToString("N0") + extraVersionText)
 
 		ioTextLines.Add("MDL stored file name: """ + Me.theMdlFileDataGeneric.theModelName + """")
@@ -1054,7 +940,6 @@ Public MustInherit Class SourceModel
 
 	Protected theMdlFileDataGeneric As SourceMdlFileDataBase
 	Protected theAniFileDataGeneric As SourceFileData
-	Protected thePhyFileDataGeneric As SourcePhyFileData
 
 	Protected theInputFileReader As BinaryReader
 	Protected theOutputFileBinaryWriter As BinaryWriter

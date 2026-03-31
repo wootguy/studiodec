@@ -7,8 +7,6 @@ Public Class SourceMdlFile10
 	Public Sub New(ByVal mdlFileReader As BinaryReader, ByVal mdlFileData As SourceMdlFileData10)
 		Me.theInputFileReader = mdlFileReader
 		Me.theMdlFileData = mdlFileData
-
-		Me.theMdlFileData.theFileSeekLog.FileSize = Me.theInputFileReader.BaseStream.Length
 	End Sub
 
 	Public Sub New(ByVal mdlFileWriter As BinaryWriter, ByVal mdlFileData As SourceMdlFileData10)
@@ -99,7 +97,6 @@ Public Class SourceMdlFile10
 		Me.theMdlFileData.transitionOffset = Me.theInputFileReader.ReadInt32()
 
 		fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-		Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "MDL File Header")
 
 		'If Me.theMdlFileData.bodyPartCount = 0 AndAlso Me.theMdlFileData.localSequenceCount > 0 Then
 		'	Me.theMdlFileData.theMdlFileOnlyHasAnimations = True
@@ -157,9 +154,7 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theBones " + Me.theMdlFileData.theBones.Count.ToString())
 
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theBones alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -198,9 +193,7 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-			Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theBoneControllers " + Me.theMdlFileData.theBoneControllers.Count.ToString())
 
-			Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theBoneControllers alignment")
 		End If
 	End Sub
 
@@ -246,9 +239,6 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-			Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theAttachments " + Me.theMdlFileData.theAttachments.Count.ToString())
-
-			Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theAttachments alignment")
 		End If
 	End Sub
 
@@ -286,9 +276,6 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-			Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aHitboxSet.theHitboxes " + Me.theMdlFileData.theHitboxes.Count.ToString())
-
-			Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aHitboxSet.theHitboxes alignment")
 		End If
 	End Sub
 
@@ -368,13 +355,10 @@ Public Class SourceMdlFile10
 					Me.theMdlFileData.theSequences.Add(aSequence)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aSequence [" + aSequence.theName + "]")
 
 					Me.ReadEvents(aSequence)
-					Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aSequence.theEvents alignment")
 
 					Me.ReadPivots(aSequence)
-					Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aSequence.thePivots alignment")
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -419,9 +403,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theSequenceGroups " + Me.theMdlFileData.theSequenceGroups.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theSequenceGroups alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -467,9 +448,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theTransitions " + Me.theMdlFileData.theTransitions.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theTransitions alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -521,14 +499,11 @@ Public Class SourceMdlFile10
 							aSequence.theAnimations.Add(anAnimation)
 
 							fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-							Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "anAnimation")
 						Next
 					Next
 
 					If animationValuesEndInputFileStreamPosition > 0 Then
 						inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
-
-						Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, animationValuesEndInputFileStreamPosition - 1, 4, "aSequence.theAnimations - End of AnimationValues alignment")
 
 						Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 					End If
@@ -536,7 +511,6 @@ Public Class SourceMdlFile10
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
 					'Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aSequence.theAnimations")
 
-					Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aSequence.theAnimations alignment")
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -583,13 +557,10 @@ Public Class SourceMdlFile10
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aBodyPart [" + aBodyPart.theName + "]")
 				Next
 
 				If modelsEndInputFileStreamPosition > 0 Then
 					inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
-
-					Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, modelsEndInputFileStreamPosition - 1, 4, "theMdlFileData.theBodyParts - End of Models alignment")
 
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				End If
@@ -633,19 +604,16 @@ Public Class SourceMdlFile10
 					Me.theMdlFileData.theTextures.Add(aTexture)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aTexture [" + aTexture.theFileName + "]")
 
 					inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
 
 					Me.ReadTextureData(aTexture)
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aTexture.theData alignment")
 
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theTextures alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -684,9 +652,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "theMdlFileData.theSkinFamilies " + Me.theMdlFileData.theSkinFamilies.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "theMdlFileData.theSkinFamilies alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -713,11 +678,9 @@ Public Class SourceMdlFile10
 		Me.theMdlFileData.theActualFileSize = Me.theInputFileReader.BaseStream.Length
 
 		fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-		Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "SequenceGroupMDL File Header")
 	End Sub
 
 	Public Sub ReadUnreadBytes()
-		Me.theMdlFileData.theFileSeekLog.LogUnreadBytes(Me.theInputFileReader)
 	End Sub
 
 	'FROM: [1999] HLStandardSDK\SourceCode\utils\studiomdl\studiomdl.c
@@ -885,7 +848,6 @@ Public Class SourceMdlFile10
 					aSequence.theEvents.Add(anEvent)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "anEvent")
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -924,7 +886,6 @@ Public Class SourceMdlFile10
 					aSequence.thePivots.Add(aPivot)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aPivot")
 				Next
 			Catch ex As Exception
 				Dim debug As Integer = 4242
@@ -963,7 +924,6 @@ Public Class SourceMdlFile10
 		End While
 
 		fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-		Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "anAnimation.theAnimationValues")
 	End Sub
 
 	Private Sub ReadModels(ByVal aBodyPart As SourceMdlBodyPart10)
@@ -1003,8 +963,6 @@ Public Class SourceMdlFile10
 				aBodyPart.theModels.Add(aModel)
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aModel [" + aModel.theName + "]")
-
 				inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
 
 				Me.ReadModelVertexBoneInfos(aModel)
@@ -1037,9 +995,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aModel.theVertexBoneInfos " + aModel.theVertexBoneInfos.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aModel.theVertexBoneInfos alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1063,9 +1018,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aModel.theNormalBoneInfos " + aModel.theNormalBoneInfos.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aModel.theNormalBoneInfos alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1091,9 +1043,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aModel.theVertexes " + aModel.theVertexes.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aModel.theVertexes alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1119,9 +1068,6 @@ Public Class SourceMdlFile10
 				Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aModel.theNormals " + aModel.theNormals.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aModel.theNormals alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1154,7 +1100,6 @@ Public Class SourceMdlFile10
 					aModel.theMeshes.Add(aMesh)
 
 					fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-					Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aMesh")
 
 					inputFileStreamPosition = Me.theInputFileReader.BaseStream.Position
 
@@ -1163,7 +1108,6 @@ Public Class SourceMdlFile10
 					Me.theInputFileReader.BaseStream.Seek(inputFileStreamPosition, SeekOrigin.Begin)
 				Next
 
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aModel.theMeshes alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1224,9 +1168,6 @@ Public Class SourceMdlFile10
 				'Next
 
 				fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-				Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aMesh.theFaces " + aMesh.theStripsAndFans.Count.ToString())
-
-				Me.theMdlFileData.theFileSeekLog.LogToEndAndAlignToNextStart(Me.theInputFileReader, fileOffsetEnd, 4, "aMesh.theFaces alignment")
 			Catch ex As Exception
 				Dim debug As Integer = 4242
 			End Try
@@ -1263,7 +1204,6 @@ Public Class SourceMdlFile10
 			Next
 
 			fileOffsetEnd = Me.theInputFileReader.BaseStream.Position - 1
-			Me.theMdlFileData.theFileSeekLog.Add(fileOffsetStart, fileOffsetEnd, "aTexture.theData")
 		Catch ex As Exception
 			Dim debug As Integer = 4242
 		End Try

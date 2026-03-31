@@ -12,10 +12,7 @@ Public Class Decompiler
 		Me.theDecompiledQcFiles = New BindingListEx(Of String)()
 		Me.theDecompiledFirstRefSmdFiles = New BindingListEx(Of String)()
 		Me.theDecompiledFirstLodSmdFiles = New BindingListEx(Of String)()
-		Me.theDecompiledPhysicsFiles = New BindingListEx(Of String)()
-		Me.theDecompiledVtaFiles = New BindingListEx(Of String)()
 		Me.theDecompiledFirstBoneAnimSmdFiles = New BindingListEx(Of String)()
-		Me.theDecompiledVrdFiles = New BindingListEx(Of String)()
 		Me.theDecompiledDeclareSequenceQciFiles = New BindingListEx(Of String)()
 		Me.theDecompiledFirstTextureBmpFiles = New BindingListEx(Of String)()
 		Me.theDecompiledLogFiles = New BindingListEx(Of String)()
@@ -75,7 +72,6 @@ Public Class Decompiler
 		Else
 			status = StatusMessage.Error
 		End If
-		e.Result = Me.GetDecompilerOutputs(status)
 
 		If Me.CancellationPending Then
 			e.Cancel = True
@@ -112,46 +108,6 @@ Public Class Decompiler
 		Return inputsAreValid
 	End Function
 
-	Private Function GetDecompilerOutputs(ByVal status As AppEnums.StatusMessage) As DecompilerOutputInfo
-		Dim decompileResultInfo As New DecompilerOutputInfo()
-
-		decompileResultInfo.theStatus = status
-
-		If TheApp.Settings.DecompileQcFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledQcFiles
-		ElseIf TheApp.Settings.DecompileReferenceMeshSmdFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledFirstRefSmdFiles
-		ElseIf TheApp.Settings.DecompileLodMeshSmdFilesIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledFirstLodSmdFiles
-		ElseIf TheApp.Settings.DecompilePhysicsMeshSmdFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledPhysicsFiles
-		ElseIf TheApp.Settings.DecompileVertexAnimationVtaFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledVtaFiles
-		ElseIf TheApp.Settings.DecompileBoneAnimationSmdFilesIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledFirstBoneAnimSmdFiles
-		ElseIf TheApp.Settings.DecompileProceduralBonesVrdFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledVrdFiles
-		ElseIf TheApp.Settings.DecompileDeclareSequenceQciFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledDeclareSequenceQciFiles
-		ElseIf TheApp.Settings.DecompileTextureBmpFilesIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledFirstTextureBmpFiles
-		ElseIf TheApp.Settings.DecompileLogFileIsChecked Then
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledLogFiles
-		Else
-			decompileResultInfo.theDecompiledRelativePathFileNames = Me.theDecompiledFirstDebugFiles
-		End If
-
-		If decompileResultInfo.theDecompiledRelativePathFileNames.Count <= 0 OrElse Me.theDecompiledQcFiles.Count <= 0 Then
-			Me.theOutputPathOrModelOutputFileName = ""
-			'ElseIf decompileResultInfo.theDecompiledRelativePathFileNames.Count = 1 Then
-			'	Me.theOutputPathOrModelOutputFileName = decompileResultInfo.theDecompiledRelativePathFileNames(0)
-		Else
-			Me.theOutputPathOrModelOutputFileName = Me.theOutputPath
-		End If
-
-		Return decompileResultInfo
-	End Function
-
 	Public Function Decompile() As AppEnums.StatusMessage
 		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
@@ -160,10 +116,7 @@ Public Class Decompiler
 		Me.theDecompiledQcFiles.Clear()
 		Me.theDecompiledFirstRefSmdFiles.Clear()
 		Me.theDecompiledFirstLodSmdFiles.Clear()
-		Me.theDecompiledPhysicsFiles.Clear()
-		Me.theDecompiledVtaFiles.Clear()
 		Me.theDecompiledFirstBoneAnimSmdFiles.Clear()
-		Me.theDecompiledVrdFiles.Clear()
 		Me.theDecompiledDeclareSequenceQciFiles.Clear()
 		Me.theDecompiledFirstTextureBmpFiles.Clear()
 		Me.theDecompiledLogFiles.Clear()
@@ -178,7 +131,7 @@ Public Class Decompiler
 		End If
 
 		Dim progressDescriptionText As String
-		progressDescriptionText = "Decompiling with " + TheApp.GetProductNameAndVersion() + ": "
+		progressDescriptionText = "Decompiling: "
 
 		Try
 			If Me.theInputMdlPathName = "" Then
@@ -189,26 +142,6 @@ Public Class Decompiler
 				Me.UpdateProgress()
 				Me.UpdateProgress(1, "ERROR: Failed because actual path is too long.")
 				status = StatusMessage.Error
-			ElseIf TheApp.Settings.DecompileMode = InputOptions.FolderRecursion Then
-				progressDescriptionText += """" + Me.theInputMdlPathName + """ (folder + subfolders)"
-				Me.UpdateProgressStart(progressDescriptionText + " ...")
-
-				status = Me.CreateLogTextFile("")
-				'If status = StatusMessage.Error Then
-				'	Return status
-				'End If
-
-				Me.DecompileModelsInFolderRecursively(Me.theInputMdlPathName)
-			ElseIf TheApp.Settings.DecompileMode = InputOptions.Folder Then
-				progressDescriptionText += """" + Me.theInputMdlPathName + """ (folder)"
-				Me.UpdateProgressStart(progressDescriptionText + " ...")
-
-				status = Me.CreateLogTextFile("")
-				'If status = StatusMessage.Error Then
-				'	Return status
-				'End If
-
-				Me.DecompileModelsInFolder(Me.theInputMdlPathName)
 			Else
 				progressDescriptionText += """" + mdlPathFileName + """"
 				Me.UpdateProgressStart(progressDescriptionText + " ...")
@@ -227,40 +160,6 @@ Public Class Decompiler
 		Me.UpdateProgressStop("... " + progressDescriptionText + " finished.")
 
 		Return status
-	End Function
-
-	Private Function DecompileModelsInFolderRecursively(ByVal modelsPathName As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		status = Me.DecompileModelsInFolder(modelsPathName)
-		If Me.CancellationPending Then
-			status = StatusMessage.Canceled
-			Return status
-		End If
-
-		For Each aPathName As String In Directory.GetDirectories(modelsPathName)
-			status = Me.DecompileModelsInFolderRecursively(aPathName)
-			If Me.CancellationPending Then
-				status = StatusMessage.Canceled
-				Return status
-			End If
-		Next
-	End Function
-
-	Private Function DecompileModelsInFolder(ByVal modelsPathName As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		For Each aPathFileName As String In Directory.GetFiles(modelsPathName, "*.mdl")
-			status = Me.DecompileOneModel(aPathFileName)
-
-			If Me.CancellationPending Then
-				status = StatusMessage.Canceled
-				Return status
-			ElseIf Me.theSkipCurrentModelIsActive Then
-				Me.theSkipCurrentModelIsActive = False
-				Continue For
-			End If
-		Next
 	End Function
 
 	Private Function DecompileOneModel(ByVal mdlPathFileName As String) As AppEnums.StatusMessage
@@ -621,34 +520,6 @@ Public Class Decompiler
 			Return status
 		End If
 
-		status = Me.WriteLodMeshFiles(model)
-		If status = StatusMessage.Canceled Then
-			Return status
-		ElseIf status = StatusMessage.Skipped Then
-			Return status
-		End If
-
-		status = Me.WritePhysicsMeshFile(model)
-		If status = StatusMessage.Canceled Then
-			Return status
-		ElseIf status = StatusMessage.Skipped Then
-			Return status
-		End If
-
-		status = Me.WriteProceduralBonesFile(model)
-		If status = StatusMessage.Canceled Then
-			Return status
-		ElseIf status = StatusMessage.Skipped Then
-			Return status
-		End If
-
-		status = Me.WriteVertexAnimationFiles(model)
-		If status = StatusMessage.Canceled Then
-			Return status
-		ElseIf status = StatusMessage.Skipped Then
-			Return status
-		End If
-
 		status = Me.WriteBoneAnimationFiles(model)
 		If status = StatusMessage.Canceled Then
 			Return status
@@ -745,89 +616,6 @@ Public Class Decompiler
 		Return status
 	End Function
 
-	Private Function WriteLodMeshFiles(ByVal model As SourceModel) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		If TheApp.Settings.DecompileLodMeshSmdFilesIsChecked Then
-			If model.HasLodMeshData Then
-				'Me.UpdateProgress(3, "Writing LOD mesh files ...")
-				Me.UpdateProgress(3, "LOD mesh files: ")
-				Me.theDecompiledFileType = DecompiledFileType.LodMesh
-				Me.theFirstDecompiledFileHasBeenAdded = False
-				AddHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-
-				status = model.WriteLodMeshFiles(Me.theModelOutputPath)
-
-				RemoveHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-				'Me.UpdateProgress(3, "... Writing LOD mesh files finished.")
-			End If
-		End If
-
-		Return status
-	End Function
-
-	Private Function WritePhysicsMeshFile(ByVal model As SourceModel) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		If TheApp.Settings.DecompilePhysicsMeshSmdFileIsChecked Then
-			If model.HasPhysicsMeshData Then
-				'Me.UpdateProgress(3, "Writing physics mesh file ...")
-				Me.UpdateProgress(3, "Physics mesh file: ")
-				Me.theDecompiledFileType = DecompiledFileType.PhysicsMesh
-				Me.theFirstDecompiledFileHasBeenAdded = False
-				AddHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-
-				status = model.WritePhysicsMeshSmdFile(Me.theModelOutputPath)
-
-				RemoveHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-				'Me.UpdateProgress(3, "... Writing physics mesh file finished.")
-			End If
-		End If
-
-		If Me.CancellationPending Then
-			status = StatusMessage.Canceled
-		ElseIf Me.theSkipCurrentModelIsActive Then
-			status = StatusMessage.Skipped
-		End If
-
-		Return status
-	End Function
-
-	Private Function WriteVertexAnimationFiles(ByVal model As SourceModel) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		If TheApp.Settings.DecompileVertexAnimationVtaFileIsChecked Then
-			If model.HasVertexAnimationData Then
-				'Me.UpdateProgress(3, "Writing VTA file ...")
-				Me.UpdateProgress(3, "Vertex animation files: ")
-				Me.theDecompiledFileType = DecompiledFileType.VertexAnimation
-				Me.theFirstDecompiledFileHasBeenAdded = False
-				AddHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-
-				'Dim vtaPathFileName As String
-				'vtaPathFileName = Path.Combine(Me.theModelOutputPath, SourceFileNamesModule.GetVtaFileName(model.Name))
-
-				'status = model.WriteVertexAnimationVtaFile(vtaPathFileName)
-				status = model.WriteVertexAnimationVtaFiles(Me.theModelOutputPath)
-
-				'If File.Exists(vtaPathFileName) Then
-				'	Me.theDecompiledVtaFiles.Add(FileManager.GetRelativePathFileName(Me.theOutputPath, vtaPathFileName))
-				'End If
-
-				RemoveHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-				'Me.UpdateProgress(3, "... Writing VTA file finished.")
-			End If
-		End If
-
-		If Me.CancellationPending Then
-			status = StatusMessage.Canceled
-		ElseIf Me.theSkipCurrentModelIsActive Then
-			status = StatusMessage.Skipped
-		End If
-
-		Return status
-	End Function
-
 	Private Function WriteBoneAnimationFiles(ByVal model As SourceModel) As AppEnums.StatusMessage
 		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
@@ -850,40 +638,6 @@ Public Class Decompiler
 					Me.UpdateProgress(3, "WARNING: Unable to create """ + outputPath + """ where bone animation SMD files would be written.")
 				End If
 			End If
-		End If
-
-		Return status
-	End Function
-
-	Private Function WriteProceduralBonesFile(ByVal model As SourceModel) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		If TheApp.Settings.DecompileProceduralBonesVrdFileIsChecked Then
-			If model.HasProceduralBonesData Then
-				'Me.UpdateProgress(3, "Writing VRD file ...")
-				Me.UpdateProgress(3, "Procedural bones file: ")
-				Me.theDecompiledFileType = DecompiledFileType.ProceduralBones
-				Me.theFirstDecompiledFileHasBeenAdded = False
-				AddHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-
-				Dim vrdPathFileName As String
-				vrdPathFileName = Path.Combine(Me.theModelOutputPath, SourceFileNamesModule.GetVrdFileName(model.Name))
-
-				status = model.WriteVrdFile(vrdPathFileName)
-
-				If File.Exists(vrdPathFileName) Then
-					Me.theDecompiledVrdFiles.Add(FileManager.GetRelativePathFileName(Me.theOutputPath, vrdPathFileName))
-				End If
-
-				RemoveHandler model.SourceModelProgress, AddressOf Me.Model_SourceModelProgress
-				'Me.UpdateProgress(3, "... Writing VRD file finished.")
-			End If
-		End If
-
-		If Me.CancellationPending Then
-			status = StatusMessage.Canceled
-		ElseIf Me.theSkipCurrentModelIsActive Then
-			status = StatusMessage.Skipped
 		End If
 
 		Return status
@@ -1047,8 +801,6 @@ Public Class Decompiler
 					Me.theDecompiledFirstLodSmdFiles.Add(relativePathFileName)
 				ElseIf Me.theDecompiledFileType = DecompiledFileType.BoneAnimation Then
 					Me.theDecompiledFirstBoneAnimSmdFiles.Add(relativePathFileName)
-				ElseIf Me.theDecompiledFileType = DecompiledFileType.PhysicsMesh Then
-					Me.theDecompiledPhysicsFiles.Add(relativePathFileName)
 				ElseIf Me.theDecompiledFileType = DecompiledFileType.TextureBmp Then
 					Me.theDecompiledFirstTextureBmpFiles.Add(relativePathFileName)
 				ElseIf Me.theDecompiledFileType = DecompiledFileType.Debug Then
@@ -1088,10 +840,7 @@ Public Class Decompiler
 	Private theDecompiledQcFiles As BindingListEx(Of String)
 	Private theDecompiledFirstRefSmdFiles As BindingListEx(Of String)
 	Private theDecompiledFirstLodSmdFiles As BindingListEx(Of String)
-	Private theDecompiledPhysicsFiles As BindingListEx(Of String)
-	Private theDecompiledVtaFiles As BindingListEx(Of String)
 	Private theDecompiledFirstBoneAnimSmdFiles As BindingListEx(Of String)
-	Private theDecompiledVrdFiles As BindingListEx(Of String)
 	Private theDecompiledDeclareSequenceQciFiles As BindingListEx(Of String)
 	Private theDecompiledFirstTextureBmpFiles As BindingListEx(Of String)
 	Private theDecompiledLogFiles As BindingListEx(Of String)

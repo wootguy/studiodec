@@ -74,15 +74,10 @@ Public Class SourceMdlModel
 	'	int					eyeballindex;
 	Public eyeballOffset As Integer
 
-	'	mstudio_modelvertexdata_t vertexdata;
-	Public vertexData As SourceMdlModelVertexData
-
 	'	int					unused[8];		// remove as appropriate
 	Public unused(7) As Integer
 
 
 	Public theSmdFileNames As List(Of String)
-	Public theMeshes As List(Of SourceMdlMesh)
-	Public theEyeballs As List(Of SourceMdlEyeball)
 
 End Class

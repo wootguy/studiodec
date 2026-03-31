@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -58,16 +58,6 @@ Namespace My.Resources
             Set
                 resourceCulture = value
             End Set
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property _26_Grey_PayPal_Pill_Button() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("_26_Grey_PayPal_Pill_Button", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
         End Property
         
         '''<summary>
@@ -150,93 +140,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property CancelRefresh() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("CancelRefresh", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property CancelSearch() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("CancelSearch", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        '''</summary>
-        Friend ReadOnly Property crowbar_icon() As System.Drawing.Icon
-            Get
-                Dim obj As Object = ResourceManager.GetObject("crowbar_icon", resourceCulture)
-                Return CType(obj,System.Drawing.Icon)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property crowbar_icon_large() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("crowbar_icon_large", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        '''&lt;AppSettings xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        '''  &lt;GameSetups&gt;
-        '''    &lt;GameSetup&gt;
-        '''      &lt;GameName&gt;Age of Chivalry&lt;/GameName&gt;
-        '''      &lt;GameEngine&gt;Source&lt;/GameEngine&gt;
-        '''      &lt;GamePathFileName&gt;&amp;lt;library1&amp;gt;\steamapps\common\Source SDK Base 2007\ageofchivalry\gameinfo.txt&lt;/GamePathFileName&gt;
-        '''      &lt;GameAppPathFileName&gt;&amp;lt;library1&amp;gt;\steamapps\common\Source SDK Base 2007\hl2.exe&lt;/GameAppPathFileName&gt;
-        '''    [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property Crowbar_Settings() As String
-            Get
-                Return ResourceManager.GetString("Crowbar_Settings", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property CrowbarGuideBanner() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("CrowbarGuideBanner", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property CrowbarLauncher() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("CrowbarLauncher", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property CrowbarSteamPipe() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("CrowbarSteamPipe", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to decompile-ANI.txt.
         '''</summary>
         Friend ReadOnly Property Decompile_DebugAniFileNameSuffix() As String
@@ -309,51 +212,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property EnterArrow() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("EnterArrow", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized string similar to Possible causes: The game&apos;s SDK or Authoring Tools has not been installed (usually via Steam Library Tools) or the path given to Crowbar (via Set Up Games button) is incorrect..
         '''</summary>
         Friend ReadOnly Property ErrorMessageSDKMissingCause() As String
             Get
                 Return ResourceManager.GetString("ErrorMessageSDKMissingCause", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property Find() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Find", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property FindNext() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("FindNext", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property FindPrevious() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("FindPrevious", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
@@ -372,76 +235,6 @@ Namespace My.Resources
         Friend ReadOnly Property Link_SteamSubscriberAgreement() As String
             Get
                 Return ResourceManager.GetString("Link_SteamSubscriberAgreement", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property lzham_x86() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("lzham_x86", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property lzma() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("lzma", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property macaw() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("macaw", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property Refresh() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Refresh", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property SevenZr() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("SevenZr", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property steam_api() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("steam_api", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property Steamworks_NET() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Steamworks_NET", resourceCulture)
-                Return CType(obj,Byte())
             End Get
         End Property
         
@@ -469,26 +262,6 @@ Namespace My.Resources
         Friend ReadOnly Property Unpack_LogFileNameSuffix() As String
             Get
                 Return ResourceManager.GetString("Unpack_LogFileNameSuffix", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property WordWrap() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("WordWrap", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property WordWrapOff() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("WordWrapOff", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
     End Module

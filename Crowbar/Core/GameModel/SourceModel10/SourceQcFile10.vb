@@ -71,10 +71,6 @@ Public Class SourceQcFile10
 
 #Region "Methods"
 
-	Public Sub WriteHeaderComment()
-		Common.WriteHeaderComment(Me.theOutputFileStreamWriter)
-	End Sub
-
 	Public Sub WriteAttachmentCommand()
 		Dim line As String = ""
 

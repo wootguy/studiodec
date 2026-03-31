@@ -1,5 +1,4 @@
 Imports System.IO
-Imports Steamworks
 
 Module Main
 
@@ -17,7 +16,7 @@ Module Main
 
 		Try
 			TheApp = New App()
-			TheApp.Init()
+			TheApp.CreateAppSettings()
 
 			Dim input As String = args(1)
 			Dim output As String = args(2)
@@ -43,30 +42,6 @@ Module Main
 
 		Console.WriteLine("Usage: studiodec .\model.mdl output\path")
 		Return 0
-	End Function
-
-	Private Sub StartupNextInstanceEventHandler(ByVal sender As Object, ByVal e As SingleInstanceEventArgs)
-		If e.MainForm.WindowState = FormWindowState.Minimized Then
-			e.MainForm.WindowState = FormWindowState.Normal
-		End If
-		e.MainForm.Activate()
-		CType(e.MainForm, MainForm).Startup(e.CommandLine)
-	End Sub
-
-	Private Function ResolveAssemblies(sender As Object, e As System.ResolveEventArgs) As Reflection.Assembly
-		Dim desiredAssembly As Reflection.AssemblyName = New Reflection.AssemblyName(e.Name)
-		'If desiredAssembly.Name = "SevenZipSharp" Then
-		'	Return Reflection.Assembly.Load(My.Resources.SevenZipSharp)
-		'ElseIf desiredAssembly.Name = "Steamworks.NET" Then
-		'	Return Reflection.Assembly.Load(My.Resources.Steamworks_NET)
-		'Else
-		'	Return Nothing
-		'End If
-		If desiredAssembly.Name = "Steamworks.NET" Then
-			Return Reflection.Assembly.Load(My.Resources.Steamworks_NET)
-		Else
-			Return Nothing
-		End If
 	End Function
 
 	'Public TheJob As WindowsJob

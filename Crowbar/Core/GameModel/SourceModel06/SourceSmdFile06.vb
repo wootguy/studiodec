@@ -13,10 +13,6 @@ Public Class SourceSmdFile06
 
 #Region "Methods"
 
-	Public Sub WriteHeaderComment()
-		Common.WriteHeaderComment(Me.theOutputFileStreamWriter)
-	End Sub
-
 	Public Sub WriteHeaderSection()
 		Dim line As String = ""
 

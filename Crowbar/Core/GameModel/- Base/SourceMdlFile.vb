@@ -32,109 +32,6 @@ Public Class SourceMdlFile
 
 	End Sub
 
-	Public Overridable Sub ReadFileForViewer(ByVal inputPathFileName As String, ByVal aMdlFileData As SourceMdlFileData)
-		Dim inputFileStream As FileStream = Nothing
-		Me.theInputFileReader = Nothing
-		Try
-			inputFileStream = New FileStream(inputPathFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
-			If inputFileStream IsNot Nothing Then
-				Try
-					Me.theInputFileReader = New BinaryReader(inputFileStream, System.Text.Encoding.ASCII)
-
-					Me.theMdlFileData = aMdlFileData
-					Me.theMdlFileData.theActualFileSize = inputFileStream.Length
-					Me.theMdlFileData.theSectionFrameCount = 0
-					Me.theMdlFileData.theModelCommandIsUsed = False
-					Me.theMdlFileData.theProceduralBonesCommandIsUsed = False
-					Me.theMdlFileData.theFileSeekLog = New FileSeekLog()
-
-					Me.ReadMdlHeader00()
-					Me.ReadMdlHeader01()
-					'Me.ReadMdlHeader02()
-
-					Me.ReadTexturePaths()
-					Me.ReadTextures()
-				Catch ex As Exception
-				Finally
-					If Me.theInputFileReader IsNot Nothing Then
-						Me.theInputFileReader.Close()
-					End If
-				End Try
-			End If
-		Catch ex As Exception
-		Finally
-			If inputFileStream IsNot Nothing Then
-				inputFileStream.Close()
-			End If
-		End Try
-	End Sub
-
-	Public Sub WriteHeaderNameToFile(ByVal inputPathFileName As String, ByVal headerName As String)
-		Dim inputFileStream As FileStream
-
-		inputFileStream = Nothing
-		Try
-			inputFileStream = New FileStream(inputPathFileName, FileMode.Open)
-			If inputFileStream IsNot Nothing Then
-				Try
-					Me.theInputFileReader = New BinaryReader(inputFileStream, System.Text.Encoding.ASCII)
-
-					Me.theMdlFileData = New SourceMdlFileData()
-					Me.ReadMdlHeader00()
-				Catch ex As Exception
-					Throw
-				Finally
-					If Me.theInputFileReader IsNot Nothing Then
-						Me.theInputFileReader.Close()
-					End If
-				End Try
-			End If
-		Catch ex As Exception
-		Finally
-			If inputFileStream IsNot Nothing Then
-				inputFileStream.Close()
-			End If
-		End Try
-
-		inputFileStream = Nothing
-		Try
-			inputFileStream = New FileStream(inputPathFileName, FileMode.Open)
-			If inputFileStream IsNot Nothing Then
-				Dim inputFileWriter As BinaryWriter = Nothing
-				Try
-					'NOTE: Important to set System.Text.Encoding.ASCII so that ReadChars() only reads in one byte per Char.
-					inputFileWriter = New BinaryWriter(inputFileStream, System.Text.Encoding.ASCII)
-
-					If Me.theMdlFileData.version > 10 Then
-						inputFileWriter.BaseStream.Seek(&HC, SeekOrigin.Begin)
-					Else
-						inputFileWriter.BaseStream.Seek(&H8, SeekOrigin.Begin)
-					End If
-					If Me.theMdlFileData.version <> 2531 Then
-						'TODO: Should only write up to 64 characters.
-						inputFileWriter.Write(headerName.ToCharArray())
-					Else
-						'NOTE: Extra name bytes for "Vampire The Masquerade - Bloodlines".
-						'TODO: Should only write up to 128 characters.
-						inputFileWriter.Write(headerName.ToCharArray())
-					End If
-					'NOTE: Write the ending null byte.
-					inputFileWriter.Write(Convert.ToByte(0))
-				Catch ex As Exception
-				Finally
-					If inputFileWriter IsNot Nothing Then
-						inputFileWriter.Close()
-					End If
-				End Try
-			End If
-		Catch ex As Exception
-		Finally
-			If inputFileStream IsNot Nothing Then
-				inputFileStream.Close()
-			End If
-		End Try
-	End Sub
-
 #End Region
 
 #Region "Private Methods"
@@ -3653,7 +3550,6 @@ Public Class SourceMdlFile
 
 #Region "Data"
 
-	Protected theMdlFileData As SourceMdlFileData
 	Protected theInputFileReader As BinaryReader
 
 #End Region

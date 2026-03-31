@@ -25,9 +25,7 @@ Public Class AppSettings
 		'Me.theViewerIsRunning = False
 		Me.thePackerIsRunning = False
 
-		Me.theGameSetups = New BindingListExAutoSort(Of GameSetup)("GameName")
 		Me.theSteamAppPathFileName = "C:\Program Files (x86)\Steam\Steam.exe"
-		Me.theSteamLibraryPaths = New BindingListEx(Of SteamLibraryPath)()
 		Me.theSetUpGamesGameSetupSelectedIndex = 0
 
 		Me.theDownloadItemIdOrLink = ""
@@ -92,7 +90,6 @@ Public Class AppSettings
 		'Me.theCompileMode = InputOptions.File
 
 		Me.thePublishGameSelectedIndex = 0
-		Me.thePublishSteamAppUserInfos = New BindingListExAutoSort(Of SteamAppUserInfo)("AppID")
 		Me.thePublishSearchField = PublishSearchFieldOptions.ID
 		Me.thePublishSearchText = ""
 		'Me.thePublishDragDroppedContentPath = ""
@@ -169,16 +166,6 @@ Public Class AppSettings
 		End Set
 	End Property
 
-	Public Property GameSetups() As BindingListExAutoSort(Of GameSetup)
-		Get
-			Return Me.theGameSetups
-		End Get
-		Set(ByVal value As BindingListExAutoSort(Of GameSetup))
-			Me.theGameSetups = value
-			NotifyPropertyChanged("GameSetups")
-		End Set
-	End Property
-
 	<XmlIgnore()>
 	Public ReadOnly Property SteamAppPathFileName() As String
 		Get
@@ -199,30 +186,6 @@ Public Class AppSettings
 			Me.theSteamAppPathFileName = value
 			NotifyPropertyChanged("SteamAppPathFileName")
 			NotifyPropertyChanged("SteamAppPathFileNameUnprocessed")
-		End Set
-	End Property
-
-	Public Property SteamLibraryPaths() As BindingListEx(Of SteamLibraryPath)
-		Get
-			Return Me.theSteamLibraryPaths
-		End Get
-		Set(ByVal value As BindingListEx(Of SteamLibraryPath))
-			Me.theSteamLibraryPaths = value
-			NotifyPropertyChanged("SteamLibraryPaths")
-		End Set
-	End Property
-
-	Public Property SetUpGamesGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.theSetUpGamesGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.theSetUpGamesGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.theSetUpGamesGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.theSetUpGamesGameSetupSelectedIndex = value
-			NotifyPropertyChanged("SetUpGamesGameSetupSelectedIndex")
 		End Set
 	End Property
 
@@ -382,20 +345,6 @@ Public Class AppSettings
 		End Set
 	End Property
 
-	Public Property UnpackGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.theUnpackGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.theUnpackGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.theUnpackGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.theUnpackGameSetupSelectedIndex = value
-			NotifyPropertyChanged("UnpackGameSetupSelectedIndex")
-		End Set
-	End Property
-
 	Public Property UnpackSearchText() As String
 		Get
 			Return Me.theUnpackSearchText
@@ -478,20 +427,6 @@ Public Class AppSettings
 		Set(ByVal value As SupportedMdlVersion)
 			Me.thePreviewOverrideMdlVersion = value
 			NotifyPropertyChanged("PreviewOverrideMdlVersion")
-		End Set
-	End Property
-
-	Public Property PreviewGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.thePreviewGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.thePreviewGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.thePreviewGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.thePreviewGameSetupSelectedIndex = value
-			NotifyPropertyChanged("PreviewGameSetupSelectedIndex")
 		End Set
 	End Property
 
@@ -888,20 +823,6 @@ Public Class AppSettings
 	'	End Set
 	'End Property
 
-	Public Property CompileGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.theCompileGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.theCompileGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.theCompileGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.theCompileGameSetupSelectedIndex = value
-			NotifyPropertyChanged("CompileGameSetupSelectedIndex")
-		End Set
-	End Property
-
 	Public Property CompileGoldSourceLogFileIsChecked() As Boolean
 		Get
 			Return Me.theCompileGoldSourceLogFileIsChecked
@@ -1074,20 +995,6 @@ Public Class AppSettings
 		End Set
 	End Property
 
-	Public Property ViewGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.theViewGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.theViewGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.theViewGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.theViewGameSetupSelectedIndex = value
-			NotifyPropertyChanged("ViewGameSetupSelectedIndex")
-		End Set
-	End Property
-
 	<XmlIgnore()>
 	Public Property ViewDataViewerIsRunning() As Boolean
 		Get
@@ -1157,20 +1064,6 @@ Public Class AppSettings
 		Set(ByVal value As String)
 			Me.thePackOutputPath = value
 			NotifyPropertyChanged("PackOutputPath")
-		End Set
-	End Property
-
-	Public Property PackGameSetupSelectedIndex() As Integer
-		Get
-			'NOTE: Must change in the Get() because theGameSetups might not have been read-in yet (i.e. GameSetups appear *after* this setting in XML file).
-			If Me.thePackGameSetupSelectedIndex >= Me.theGameSetups.Count Then
-				Me.thePackGameSetupSelectedIndex = Me.theGameSetups.Count - 1
-			End If
-			Return Me.thePackGameSetupSelectedIndex
-		End Get
-		Set(ByVal value As Integer)
-			Me.thePackGameSetupSelectedIndex = value
-			NotifyPropertyChanged("PackGameSetupSelectedIndex")
 		End Set
 	End Property
 
@@ -1254,18 +1147,6 @@ Public Class AppSettings
 			If Me.thePublishGameSelectedIndex <> value Then
 				Me.thePublishGameSelectedIndex = value
 				NotifyPropertyChanged("PublishGameSelectedIndex")
-			End If
-		End Set
-	End Property
-
-	Public Property PublishSteamAppUserInfos() As BindingListExAutoSort(Of SteamAppUserInfo)
-		Get
-			Return Me.thePublishSteamAppUserInfos
-		End Get
-		Set(ByVal value As BindingListExAutoSort(Of SteamAppUserInfo))
-			If Me.thePublishSteamAppUserInfos IsNot value Then
-				Me.thePublishSteamAppUserInfos = value
-				NotifyPropertyChanged("PublishSteamAppUserInfos")
 			End If
 		End Set
 	End Property
@@ -1838,9 +1719,7 @@ Public Class AppSettings
 
 	' Set Up Games tab
 
-	Private theGameSetups As BindingListExAutoSort(Of GameSetup)
 	Private theSteamAppPathFileName As String
-	Private theSteamLibraryPaths As BindingListEx(Of SteamLibraryPath)
 	Private theSetUpGamesGameSetupSelectedIndex As Integer
 
 	' Download tab
@@ -1996,7 +1875,6 @@ Public Class AppSettings
 	' Publish tab
 
 	Private thePublishGameSelectedIndex As Integer
-	Private thePublishSteamAppUserInfos As BindingListExAutoSort(Of SteamAppUserInfo)
 	Private thePublishSearchField As PublishSearchFieldOptions
 	Private thePublishSearchText As String
 	'Private thePublishDragDroppedContentPath As String

@@ -183,7 +183,6 @@ Public Class SourceModel04
 		If Me.theMdlFileData IsNot Nothing Then
 			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugMdlFileNameSuffix)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.WriteAccessedBytesDebugFile(debugPathFileName, Me.theMdlFileData.theFileSeekLog)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
 		End If
 
@@ -263,8 +262,6 @@ Public Class SourceModel04
 		Dim smdFile As New SourceSmdFile04(Me.theOutputFileTextWriter, Me.theMdlFileData)
 
 		Try
-			smdFile.WriteHeaderComment()
-
 			smdFile.WriteHeaderSection()
 			smdFile.WriteNodesSection()
 			smdFile.WriteSkeletonSection()
@@ -281,8 +278,6 @@ Public Class SourceModel04
 			Me.theOutputFileTextWriter = File.CreateText(smdPathFileName)
 
 			Dim smdFile As New SourceSmdFile04(Me.theOutputFileTextWriter, Me.theMdlFileData)
-
-			smdFile.WriteHeaderComment()
 
 			smdFile.WriteHeaderSection()
 			smdFile.WriteNodesSection()

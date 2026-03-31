@@ -430,7 +430,6 @@ Public Class SourceModel10
 		If Me.theMdlFileData IsNot Nothing Then
 			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugMdlFileNameSuffix)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.WriteAccessedBytesDebugFile(debugPathFileName, Me.theMdlFileData.theFileSeekLog)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
 		End If
 
@@ -444,7 +443,6 @@ Public Class SourceModel10
 				fileExtension = Path.GetExtension(fileName)
 				debugPathFileName = Path.Combine(debugPath, fileNameWithoutExtension + (i + 1).ToString("00") + fileExtension)
 				Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-				Me.WriteAccessedBytesDebugFile(debugPathFileName, Me.theSequenceGroupMdlFileDatas10(i).theFileSeekLog)
 				Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
 			Next
 		End If
@@ -452,7 +450,6 @@ Public Class SourceModel10
 		If Me.theTextureMdlFileData10 IsNot Nothing Then
 			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugTextureMDLFileNameSuffix)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.WriteAccessedBytesDebugFile(debugPathFileName, Me.theTextureMdlFileData10.theFileSeekLog)
 			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
 		End If
 
@@ -586,8 +583,6 @@ Public Class SourceModel10
 		Dim qcFile As New SourceQcFile10(Me.theOutputFileTextWriter, Me.theQcPathFileName, Me.theMdlFileData, Me.theName)
 
 		Try
-			qcFile.WriteHeaderComment()
-
 			qcFile.WriteModelNameCommand()
 			qcFile.WriteCDCommand()
 			qcFile.WriteCDTextureCommand()
