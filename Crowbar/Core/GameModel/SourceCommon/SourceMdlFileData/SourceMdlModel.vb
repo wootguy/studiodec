@@ -2,11 +2,6 @@ Public Class SourceMdlModel
 
 	Public Sub New()
 		'MyBase.New()
-
-		Me.theSmdFileNames = New List(Of String)(MAX_NUM_LODS)
-		For i As Integer = 0 To MAX_NUM_LODS - 1
-			Me.theSmdFileNames.Add("")
-		Next
 	End Sub
 
 	'struct mstudiomodel_t
@@ -76,8 +71,5 @@ Public Class SourceMdlModel
 
 	'	int					unused[8];		// remove as appropriate
 	Public unused(7) As Integer
-
-
-	Public theSmdFileNames As List(Of String)
 
 End Class

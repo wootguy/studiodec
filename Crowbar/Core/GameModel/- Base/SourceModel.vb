@@ -11,20 +11,8 @@ Public MustInherit Class SourceModel
 		Try
 			version = SourceModel.GetVersion(mdlPathFileName)
 
-			'If version = 4 Then
-			'	'NOT IMPLEMENTED YET.
-			'	'model = New SourceModel04(mdlPathFileName, version)
-			'Else
-			If version = 6 Then
-				model = New SourceModel06(mdlPathFileName, version)
-			ElseIf version = 10 Then
+			If version = 10 Then
 				model = New SourceModel10(mdlPathFileName, version)
-				'ElseIf version = 11 Then
-				'NOT IMPLEMENTED YET.
-				'model = New SourceModel10(mdlPathFileName, version)
-				'ElseIf version = 14 Then
-				'NOT IMPLEMENTED YET.
-				'model = New SourceModel14(mdlPathFileName, version)
 			Else
 				' Version not implemented.
 				model = Nothing
@@ -142,48 +130,6 @@ Public MustInherit Class SourceModel
 		End Get
 	End Property
 
-	Public Overridable ReadOnly Property PhyFileIsUsed As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Overridable ReadOnly Property VtxFileIsUsed As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Overridable ReadOnly Property AniFileIsUsed As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Overridable ReadOnly Property VvdFileIsUsed As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Property WritingIsCanceled As Boolean
-		Get
-			Return Me.theWritingIsCanceled
-		End Get
-		Set(value As Boolean)
-			Me.theWritingIsCanceled = value
-		End Set
-	End Property
-
-	'Public Property WritingSingleFileIsCanceled As Boolean
-	'	Get
-	'		Return Me.theWritingSingleFileIsCanceled
-	'	End Get
-	'	Set(value As Boolean)
-	'		Me.theWritingSingleFileIsCanceled = value
-	'	End Set
-	'End Property
-
 #End Region
 
 #Region "Properties - Data Query"
@@ -200,36 +146,11 @@ Public MustInherit Class SourceModel
 		End Get
 	End Property
 
-	Public Overridable ReadOnly Property HasLodMeshData As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Overridable ReadOnly Property HasPhysicsMeshData As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
-	Public Overridable ReadOnly Property HasProceduralBonesData As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
 	Public Overridable ReadOnly Property HasBoneAnimationData As Boolean
 		Get
 			Return False
 		End Get
 	End Property
-
-	Public Overridable ReadOnly Property HasVertexAnimationData As Boolean
-		Get
-			Return False
-		End Get
-	End Property
-
 	Public Overridable ReadOnly Property HasTextureFileData As Boolean
 		Get
 			Return False
@@ -262,14 +183,6 @@ Public MustInherit Class SourceModel
 		Return status
 	End Function
 
-	Public Overridable Function ReadAniFile() As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		status = StatusMessage.Error
-
-		Return status
-	End Function
-
 	Public Overridable Function ReadSequenceGroupMdlFiles() As AppEnums.StatusMessage
 		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
@@ -279,14 +192,6 @@ Public MustInherit Class SourceModel
 	End Function
 
 	Public Overridable Function ReadTextureMdlFile() As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		status = StatusMessage.Error
-
-		Return status
-	End Function
-
-	Public Overridable Function ReadPhyFile() As AppEnums.StatusMessage
 		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
 		status = StatusMessage.Error
@@ -305,59 +210,6 @@ Public MustInherit Class SourceModel
 
 		Return status
 	End Function
-
-	Public Overridable Function ReadVtxFileHeader() As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		If status = StatusMessage.Success Then
-			Me.ReadFile(Me.theVtxPathFileName, AddressOf Me.ReadVtxFileHeader_Internal)
-		End If
-
-		Return status
-	End Function
-
-	Public Overridable Function ReadVtxFile() As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		'If String.IsNullOrEmpty(Me.theVtxPathFileName) Then
-		'	status = Me.CheckForRequiredFiles()
-		'End If
-
-		If status = StatusMessage.Success Then
-			Me.ReadFile(Me.theVtxPathFileName, AddressOf Me.ReadVtxFile_Internal)
-		End If
-
-		Return status
-	End Function
-
-	Public Overridable Function ReadVvdFile() As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		'If String.IsNullOrEmpty(Me.theVvdPathFileName) Then
-		'	status = Me.CheckForRequiredFiles()
-		'End If
-
-		If status = StatusMessage.Success Then
-			Me.ReadFile(Me.theVvdPathFileName, AddressOf Me.ReadVvdFile_Internal)
-		End If
-
-		Return status
-	End Function
-
-	'Public Overridable Function ReadMdlFileForViewer() As AppEnums.StatusMessage
-	'	Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-	'	If Not File.Exists(Me.theMdlPathFileName) Then
-	'		status = StatusMessage.ErrorRequiredMdlFileNotFound
-	'	End If
-
-	'	If status = StatusMessage.Success Then
-	'		Me.ReadFile(Me.theMdlPathFileName, AddressOf Me.ReadMdlFileForViewer_Internal)
-	'	End If
-
-	'	Return status
-	'End Function
-
 	Public Overridable Function SetAllSmdPathFileNames() As AppEnums.StatusMessage
 		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
@@ -386,39 +238,8 @@ Public MustInherit Class SourceModel
 		Return status
 	End Function
 
-	Public Overridable Function WriteLodMeshFiles(ByVal modelOutputPath As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		Return status
-	End Function
-
 	Public Overridable Function WriteMeshSmdFile(ByVal smdPathFileName As String, ByVal lodIndex As Integer, ByVal aModel As SourceMdlModel, ByVal bodyPartVertexIndexStart As Integer) As String
 		Dim status As String = "Success"
-
-		Try
-			Me.theOutputFileTextWriter = File.CreateText(smdPathFileName)
-
-			'Me.WriteMeshSmdFile(lodIndex, aModel, bodyPartVertexIndexStart)
-		Catch ex As PathTooLongException
-			status = "ERROR: Crowbar tried to create """ + smdPathFileName + """ but the system gave this message: " + ex.Message
-		Catch ex As ArgumentException
-			Dim debug As Integer = 4242
-		Catch ex As NotSupportedException
-			Dim debug As Integer = 4242
-		Catch ex As Exception
-			Dim debug As Integer = 4242
-		Finally
-			If Me.theOutputFileTextWriter IsNot Nothing Then
-				Me.theOutputFileTextWriter.Flush()
-				Me.theOutputFileTextWriter.Close()
-			End If
-		End Try
-
-		Return status
-	End Function
-
-	Public Overridable Function WritePhysicsMeshSmdFile(ByVal modelOutputPath As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
 		Return status
 	End Function
@@ -429,37 +250,8 @@ Public MustInherit Class SourceModel
 		Return status
 	End Function
 
-	Public Overridable Function WriteVertexAnimationVtaFiles(ByVal modelOutputPath As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		Return status
-	End Function
-
 	Public Overridable Function WriteBoneAnimationSmdFile(ByVal smdPathFileName As String, ByVal aSequenceDesc As SourceMdlSequenceDescBase, ByVal anAnimationDesc As SourceMdlAnimationDescBase) As String
 		Dim status As String = "Success"
-
-		Try
-			Me.theOutputFileTextWriter = File.CreateText(smdPathFileName)
-
-			Me.WriteBoneAnimationSmdFile(aSequenceDesc, anAnimationDesc)
-		Catch ex As PathTooLongException
-			status = "ERROR: Crowbar tried to create """ + smdPathFileName + """ but the system gave this message: " + ex.Message
-		Catch ex As Exception
-			Dim debug As Integer = 4242
-		Finally
-			If Me.theOutputFileTextWriter IsNot Nothing Then
-				If Me.theOutputFileTextWriter.BaseStream IsNot Nothing Then
-					Me.theOutputFileTextWriter.Flush()
-				End If
-				Me.theOutputFileTextWriter.Close()
-			End If
-		End Try
-
-		Return status
-	End Function
-
-	Public Overridable Function WriteVrdFile(ByVal vrdPathFileName As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
 
 		Return status
 	End Function
@@ -471,78 +263,6 @@ Public MustInherit Class SourceModel
 
 		Return status
 	End Function
-
-	Public Overridable Function WriteDeclareSequenceQciFile(ByVal declareSequenceQciPathFileName As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		Return status
-	End Function
-
-	Public Overridable Sub WriteMdlFileNameToMdlFile(ByVal mdlPathFileName As String, ByVal internalMdlFileName As String)
-		Me.ReadFile(mdlPathFileName, AddressOf Me.ReadMdlFileHeader_Internal)
-		Me.WriteFile(mdlPathFileName, AddressOf Me.WriteMdlFileNameToMdlFile, internalMdlFileName, Me.theMdlFileDataGeneric)
-	End Sub
-
-	Public Overridable Sub WriteAniFileNameToMdlFile(ByVal mdlPathFileName As String, ByVal internalMdlFileName As String)
-		Me.ReadFile(mdlPathFileName, AddressOf Me.ReadMdlFileHeader_Internal)
-		Dim internalAniFileName As String
-		internalAniFileName = Path.Combine("models", Path.ChangeExtension(internalMdlFileName, ".ani"))
-		Me.WriteFile(mdlPathFileName, AddressOf Me.WriteAniFileNameToMdlFile, internalAniFileName, Me.theMdlFileDataGeneric)
-	End Sub
-
-	Public Overridable Function WriteAccessedBytesDebugFiles(ByVal debugPath As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		status = StatusMessage.Error
-
-		Return status
-	End Function
-
-	Public Overridable Function GetOverviewTextLines(ByVal mdlPathFileName As String, ByVal mdlVersionOverride As SupportedMdlVersion) As List(Of String)
-		Dim textLines As New List(Of String)()
-
-		Try
-			Me.ReadFile(mdlPathFileName, AddressOf Me.ReadMdlFileForViewer_Internal)
-
-			Me.GetHeaderDataFromMdlFile(textLines, mdlVersionOverride)
-			textLines.Add("")
-			Me.GetModelFileDataFromMdlFile(textLines)
-			textLines.Add("")
-			Me.GetTextureDataFromMdlFile(textLines)
-			'textLines.Add("")
-			'Me.GetSequenceDataFromMdlFile(textLines)
-		Catch ex As Exception
-			'textLines.Add("ERROR: " + ex.Message)
-			Throw
-		End Try
-
-		Return textLines
-	End Function
-
-	Public Overridable Function GetTextureFolders(ByVal mdlPathFileName As String) As List(Of String)
-		Dim textureFolders As List(Of String) = Nothing
-
-		Try
-			Me.ReadFile(mdlPathFileName, AddressOf Me.ReadMdlFileForViewer_Internal)
-
-			If Me.HasTextureData Then
-				If Me.theMdlFileDataGeneric.version <= 10 Then
-				Else
-					textureFolders = Me.GetTextureFolders()
-				End If
-			Else
-			End If
-		Catch ex As Exception
-			Throw
-		End Try
-
-		Return textureFolders
-	End Function
-
-	Public Overridable Function GetTextureFolders() As List(Of String)
-		Return New List(Of String)()
-	End Function
-
 	Public Overridable Function GetTextureFileNames() As List(Of String)
 		Return New List(Of String)()
 	End Function
@@ -561,15 +281,7 @@ Public MustInherit Class SourceModel
 
 #Region "Protected Methods"
 
-	Protected Overridable Sub ReadAniFile_Internal()
-
-	End Sub
-
 	Protected Overridable Sub ReadMdlFile_Internal()
-
-	End Sub
-
-	Protected Overridable Sub ReadPhyFile_Internal()
 
 	End Sub
 
@@ -612,18 +324,6 @@ Public MustInherit Class SourceModel
 
 	End Sub
 
-	Protected Overridable Sub ReadVtxFileHeader_Internal()
-
-	End Sub
-
-	Protected Overridable Sub ReadVtxFile_Internal()
-
-	End Sub
-
-	Protected Overridable Sub ReadVvdFile_Internal()
-
-	End Sub
-
 	Protected Overridable Sub WriteQcFile()
 
 	End Sub
@@ -632,23 +332,11 @@ Public MustInherit Class SourceModel
 
 	End Sub
 
-	Protected Overridable Sub WritePhysicsMeshSmdFile()
-
-	End Sub
-
 	Protected Overridable Sub WriteBoneAnimationSmdFile(ByVal aSequenceDesc As SourceMdlSequenceDescBase, ByVal anAnimationDesc As SourceMdlAnimationDescBase)
 
 	End Sub
 
-	Protected Overridable Sub WriteVrdFile()
-
-	End Sub
-
 	Protected Overridable Sub WriteTextureFile()
-
-	End Sub
-
-	Protected Overridable Sub WriteDeclareSequenceQciFile()
 
 	End Sub
 
@@ -695,32 +383,6 @@ Public MustInherit Class SourceModel
 		End Try
 	End Sub
 
-	Protected Sub WriteFile(ByVal pathFileName As String, ByVal writeFileAction As WriteFileDelegate, ByVal value As String, ByVal fileData As SourceFileData)
-		Dim outputFileStream As FileStream = Nothing
-		Try
-			outputFileStream = New FileStream(pathFileName, FileMode.Open)
-			If outputFileStream IsNot Nothing Then
-				Try
-					Me.theOutputFileBinaryWriter = New BinaryWriter(outputFileStream, System.Text.Encoding.ASCII)
-
-					writeFileAction.Invoke(value)
-				Catch ex As Exception
-					Dim debug As Integer = 4242
-				Finally
-					If Me.theOutputFileBinaryWriter IsNot Nothing Then
-						Me.theOutputFileBinaryWriter.Close()
-					End If
-				End Try
-			End If
-		Catch ex As Exception
-			Dim debug As Integer = 4242
-		Finally
-			If outputFileStream IsNot Nothing Then
-				outputFileStream.Close()
-			End If
-		End Try
-	End Sub
-
 	Protected Function WriteTextFile(ByVal outputPathFileName As String, ByVal writeTextFileAction As WriteTextFileDelegate) As String
 		Dim status As String = "Success"
 
@@ -758,179 +420,6 @@ Public MustInherit Class SourceModel
 
 #End Region
 
-#Region "Private Methods"
-
-	Private Sub GetHeaderDataFromMdlFile(ByVal ioTextLines As List(Of String), ByVal mdlVersionOverride As SupportedMdlVersion)
-		'Dim mdlFileData48 As SourceMdlFileData48 = Nothing
-		'Dim mdlFileData49 As SourceMdlFileData49 = Nothing
-		'If Me.theMdlFileDataGeneric.version = 48 Then
-		'	mdlFileData48 = CType(Me.theMdlFileDataGeneric, SourceMdlFileData48)
-		'ElseIf Me.theMdlFileDataGeneric.version = 49 Then
-		'	mdlFileData49 = CType(Me.theMdlFileDataGeneric, SourceMdlFileData49)
-		'End If
-
-		ioTextLines.Add("=== General Info ===")
-		ioTextLines.Add("")
-
-		Dim fileTypeId As String
-		fileTypeId = Me.theMdlFileDataGeneric.theID
-		If fileTypeId = "IDST" Then
-			ioTextLines.Add("MDL file type ID: " + fileTypeId)
-		Else
-			ioTextLines.Add("ERROR: MDL file type ID is not IDST. This is either a corrupted MDL file or not a GoldSource or Source model file.")
-		End If
-
-		Dim extraVersionText As String = ""
-		ioTextLines.Add("MDL file version: " + Me.theMdlFileDataGeneric.version.ToString("N0") + extraVersionText)
-
-		ioTextLines.Add("MDL stored file name: """ + Me.theMdlFileDataGeneric.theModelName + """")
-		'If mdlFileData48 IsNot Nothing AndAlso mdlFileData48.nameCopyOffset > 0 Then
-		'	ioTextLines.Add("MDL stored file name copy: """ + mdlFileData48.theNameCopy + """")
-		'End If
-		'If mdlFileData49 IsNot Nothing AndAlso mdlFileData49.nameCopyOffset > 0 Then
-		'	ioTextLines.Add("MDL stored file name copy: """ + mdlFileData49.theNameCopy + """")
-		'End If
-
-		Dim storedFileSize As Long
-		Dim actualFileSize As Long
-		storedFileSize = Me.theMdlFileDataGeneric.fileSize
-		actualFileSize = Me.theMdlFileDataGeneric.theActualFileSize
-		If storedFileSize > -1 Then
-			ioTextLines.Add("MDL stored file size: " + storedFileSize.ToString("N0") + " bytes")
-			ioTextLines.Add("MDL actual file size: " + actualFileSize.ToString("N0") + " bytes")
-			If Me.theMdlFileDataGeneric.fileSize <> Me.theMdlFileDataGeneric.theActualFileSize Then
-				ioTextLines.Add("WARNING: MDL file size is different than the internally-stored file size. This means the MDL file was changed after compiling -- possibly corrupted from hex-editing.")
-			End If
-		Else
-			ioTextLines.Add("MDL file size: " + actualFileSize.ToString("N0") + " bytes")
-		End If
-
-		If Me.theMdlFileDataGeneric.theChecksumIsValid Then
-			ioTextLines.Add("MDL checksum: " + Me.theMdlFileDataGeneric.checksum.ToString("X8"))
-		End If
-	End Sub
-
-	Private Sub GetModelFileDataFromMdlFile(ByVal ioTextLines As List(Of String))
-		Me.CheckForRequiredFiles()
-
-		ioTextLines.Add("=== Model Files ===")
-		ioTextLines.Add("")
-
-		If Me.AniFileIsUsed Then
-			If File.Exists(Me.theAniPathFileName) Then
-				ioTextLines.Add("""" + Path.GetFileName(Me.theAniPathFileName) + """")
-			Else
-				ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.theAniPathFileName) + """")
-			End If
-		End If
-
-		ioTextLines.Add("""" + Path.GetFileName(Me.theMdlPathFileName) + """")
-
-		'TODO: For GoldSource, list all SequenceGroup MDL files.
-		'If Me.SequenceGroupMdlFilesAreUsed Then
-		'	'If File.Exists(Me.thePhyPathFileName) Then
-		'	'	ioTextLines.Add("""" + Path.GetFileName(Me.thePhyPathFileName) + """")
-		'	'Else
-		'	'	ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.thePhyPathFileName) + """")
-		'	'End If
-		'End If
-
-		If Me.TextureMdlFileIsUsed Then
-			If File.Exists(Me.theTextureMdlPathFileName) Then
-				ioTextLines.Add("""" + Path.GetFileName(Me.theTextureMdlPathFileName) + """")
-			Else
-				ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.theTextureMdlPathFileName) + """")
-			End If
-		End If
-
-		If Me.PhyFileIsUsed Then
-			If File.Exists(Me.thePhyPathFileName) Then
-				ioTextLines.Add("""" + Path.GetFileName(Me.thePhyPathFileName) + """")
-			Else
-				ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.thePhyPathFileName) + """")
-			End If
-		End If
-
-		'TODO: List all vtx files, not just the one used for decompiling.
-		If Me.VtxFileIsUsed Then
-			If File.Exists(Me.theVtxPathFileName) Then
-				ioTextLines.Add("""" + Path.GetFileName(Me.theVtxPathFileName) + """")
-			Else
-				ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.theVtxPathFileName) + """")
-			End If
-		End If
-
-		If Me.VvdFileIsUsed Then
-			If File.Exists(Me.theVvdPathFileName) Then
-				ioTextLines.Add("""" + Path.GetFileName(Me.theVvdPathFileName) + """")
-			Else
-				ioTextLines.Add("ERROR: File not found: """ + Path.GetFileName(Me.theVvdPathFileName) + """")
-			End If
-		End If
-	End Sub
-
-	Private Sub GetTextureDataFromMdlFile(ByVal ioTextLines As List(Of String))
-		ioTextLines.Add("=== Material and Texture Info ===")
-		ioTextLines.Add("")
-
-		If Me.HasTextureData Then
-			If Me.theMdlFileDataGeneric.version <= 10 Then
-				If Me.TextureMdlFileIsUsed Then
-					ioTextLines.Add("Texture files are stored within the separate 't' MDL file: " + Path.GetFileName(Me.theTextureMdlPathFileName))
-				Else
-					ioTextLines.Add("Texture files are stored within the MDL file.")
-				End If
-			Else
-				ioTextLines.Add("Material Folders ($CDMaterials lines in QC file -- folders where VMT files should be, relative to game's ""materials"" folder): ")
-				Dim textureFolders As List(Of String)
-				textureFolders = Me.GetTextureFolders()
-				If textureFolders.Count = 0 Then
-					ioTextLines.Add("No material folders set.")
-				Else
-					For Each aTextureFolder As String In textureFolders
-						ioTextLines.Add("""" + aTextureFolder + """")
-					Next
-				End If
-			End If
-
-			ioTextLines.Add("")
-
-			ioTextLines.Add("Material File Names (file names in mesh SMD files and in QC $texturegroup command): ")
-			Dim textureFileNames As List(Of String)
-			textureFileNames = Me.GetTextureFileNames()
-			ioTextLines.Add("(Total used: " + textureFileNames.Count.ToString() + ")")
-			If textureFileNames.Count = 0 Then
-				ioTextLines.Add("No material file names found.")
-			Else
-				For Each aTextureFileName As String In textureFileNames
-					ioTextLines.Add("""" + aTextureFileName + """")
-				Next
-			End If
-		Else
-			'ioTextLines.Add("No texture data because this model only has animation data.")
-			ioTextLines.Add("No texture data.")
-		End If
-	End Sub
-
-	'Private Sub GetSequenceDataFromMdlFile(ByVal ioTextLines As List(Of String))
-	'	ioTextLines.Add("=== Sequence Info ===")
-	'	ioTextLines.Add("")
-
-	'	If Me.HasBoneAnimationData Then
-	'		If Me.theMdlFileDataGeneric.version <= 10 Then
-	'		Else
-	'			Dim sequenceNames As List(Of String)
-	'			sequenceNames = Me.GetSequenceInfo()
-	'			For Each aSequenceName As String In sequenceNames
-	'				ioTextLines.Add("""" + aSequenceName + """")
-	'			Next
-	'		End If
-	'	Else
-	'		ioTextLines.Add("No sequence data.")
-	'	End If
-	'End Sub
-
-#End Region
 
 #Region "Data"
 
@@ -945,16 +434,9 @@ Public MustInherit Class SourceModel
 	Protected theOutputFileBinaryWriter As BinaryWriter
 	Protected theOutputFileTextWriter As StreamWriter
 
-	Protected theWritingIsCanceled As Boolean
-	Protected theWritingSingleFileIsCanceled As Boolean
-
-	Protected theAniPathFileName As String
-	Protected thePhyPathFileName As String
 	Protected theMdlPathFileName As String
 	Protected theSequenceGroupMdlPathFileNames As List(Of String)
 	Protected theTextureMdlPathFileName As String
-	Protected theVtxPathFileName As String
-	Protected theVvdPathFileName As String
 
 	Protected theQcPathFileName As String
 

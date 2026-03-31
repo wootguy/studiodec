@@ -86,7 +86,6 @@ Public Class AppSettings
 		'Me.SetDefaultCompileOutputSubfolderName()
 		Me.thePackOutputPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 		Me.thePackGameSetupSelectedIndex = 0
-		Me.SetDefaultPackOptions()
 		'Me.theCompileMode = InputOptions.File
 
 		Me.thePublishGameSelectedIndex = 0
@@ -1107,16 +1106,6 @@ Public Class AppSettings
 		End Set
 	End Property
 
-	Public Property PackGmaItemTags() As BindingListEx(Of String)
-		Get
-			Return Me.thePackGmaItemTags
-		End Get
-		Set(ByVal value As BindingListEx(Of String))
-			Me.thePackGmaItemTags = value
-			NotifyPropertyChanged("PackGmaItemTags")
-		End Set
-	End Property
-
 	<XmlIgnore()>
 	Public Property PackOptionsText() As String
 		Get
@@ -1628,19 +1617,6 @@ Public Class AppSettings
 		Me.CompileOptionsText = ""
 	End Sub
 
-	Public Sub SetDefaultPackOptions()
-		'NOTE: Call the properties so the NotifyPropertyChanged events are raised.
-		Me.PackLogFileIsChecked = False
-
-		Me.PackOptionMultiFileVpkIsChecked = False
-		Me.PackOptionIgnoreWhitelistWarningsIsChecked = False
-
-		Me.PackGmaTitle = ""
-		Me.PackGmaItemTags = New BindingListEx(Of String)()
-
-		Me.PackOptionsText = ""
-	End Sub
-
 	Public Sub SetDefaultOptionsAutoOpenOptions()
 		'NOTE: Call the properties so the NotifyPropertyChanged events are raised.
 		Me.OptionsAutoOpenVpkFileIsChecked = True
@@ -1866,7 +1842,6 @@ Public Class AppSettings
 	Private thePackOptionIgnoreWhitelistWarningsIsChecked As Boolean
 
 	Private thePackGmaTitle As String
-	Private thePackGmaItemTags As BindingListEx(Of String)
 
 	Private thePackOptionsText As String
 

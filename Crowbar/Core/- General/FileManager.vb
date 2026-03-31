@@ -19,19 +19,6 @@ Public Class FileManager
 		Return text.ToString()
 	End Function
 
-	Public Shared Function ReadNullTerminatedString(ByVal inputFileReader As BufferedBinaryReader) As String
-		Dim text As New StringBuilder()
-		text.Length = 0
-		Dim aCharacter As Char
-		While True
-			aCharacter = inputFileReader.ReadChar()
-			If aCharacter = ControlChars.NullChar Then
-				Exit While
-			End If
-			text.Append(aCharacter)
-		End While
-		Return text.ToString()
-	End Function
 
 	'Public Function ReadKeyValueLine(ByVal textFileReader As StreamReader, ByVal key As String) As String
 	'	Dim line As String

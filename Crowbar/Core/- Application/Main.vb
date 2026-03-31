@@ -27,10 +27,7 @@ Module Main
 
 			' Create the object that owns Decompile()
 			Dim decompiler As New Decompiler()
-			decompiler.theOutputPath = output
-			Dim result As StatusMessage = decompiler.Decompile()
-
-			Console.WriteLine("Result: " & result.ToString())
+			Dim result As StatusMessage = decompiler.Decompile(output)
 
 			TheApp.Dispose()
 			Return 0

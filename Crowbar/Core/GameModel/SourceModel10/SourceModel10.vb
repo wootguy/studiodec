@@ -2,7 +2,7 @@
 Imports System.Runtime.InteropServices
 
 Public Class SourceModel10
-	Inherits SourceModel06
+	Inherits SourceModel
 
 #Region "Creation and Destruction"
 
@@ -242,14 +242,6 @@ Public Class SourceModel10
 						smdPathFileName = Path.Combine(modelOutputPath, aBodyModel.theSmdFileName)
 
 						Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, smdPathFileName)
-						'NOTE: Check here in case writing is canceled in the above event.
-						If Me.theWritingIsCanceled Then
-							status = StatusMessage.Canceled
-							Return status
-						ElseIf Me.theWritingSingleFileIsCanceled Then
-							Me.theWritingSingleFileIsCanceled = False
-							Continue For
-						End If
 
 						Me.WriteMeshSmdFile(smdPathFileName, aBodyModel)
 
@@ -291,14 +283,6 @@ Public Class SourceModel10
 					smdPath = FileManager.GetPath(smdPathFileName)
 					If FileManager.PathExistsAfterTryToCreate(smdPath) Then
 						Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, smdPathFileName)
-						'NOTE: Check here in case writing is canceled in the above event.
-						If Me.theWritingIsCanceled Then
-							status = StatusMessage.Canceled
-							Return status
-						ElseIf Me.theWritingSingleFileIsCanceled Then
-							Me.theWritingSingleFileIsCanceled = False
-							Continue For
-						End If
 
 						Me.WriteBoneAnimationSmdFile(smdPathFileName, aSequenceDesc, blendIndex)
 
@@ -335,14 +319,6 @@ Public Class SourceModel10
 				texturePath = FileManager.GetPath(texturePathFileName)
 				If FileManager.PathExistsAfterTryToCreate(texturePath) Then
 					Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, texturePathFileName)
-					'NOTE: Check here in case writing is canceled in the above event.
-					If Me.theWritingIsCanceled Then
-						status = StatusMessage.Canceled
-						Return status
-					ElseIf Me.theWritingSingleFileIsCanceled Then
-						Me.theWritingSingleFileIsCanceled = False
-						Continue For
-					End If
 
 					Dim aBitmap As New BitmapFile(texturePathFileName, aTexture.width, aTexture.height, aTexture.theData)
 					aBitmap.Write()
@@ -421,40 +397,6 @@ Public Class SourceModel10
 
 	'	Return status
 	'End Function
-
-	Public Overrides Function WriteAccessedBytesDebugFiles(ByVal debugPath As String) As AppEnums.StatusMessage
-		Dim status As AppEnums.StatusMessage = StatusMessage.Success
-
-		Dim debugPathFileName As String
-
-		If Me.theMdlFileData IsNot Nothing Then
-			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugMdlFileNameSuffix)
-			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
-		End If
-
-		If Me.theSequenceGroupMdlFileDatas10 IsNot Nothing Then
-			Dim fileName As String
-			Dim fileNameWithoutExtension As String
-			Dim fileExtension As String
-			For i As Integer = 0 To Me.theSequenceGroupMdlFileDatas10.Count - 1
-				fileName = Me.theName + " " + My.Resources.Decompile_DebugSequenceGroupMDLFileNameSuffix
-				fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName)
-				fileExtension = Path.GetExtension(fileName)
-				debugPathFileName = Path.Combine(debugPath, fileNameWithoutExtension + (i + 1).ToString("00") + fileExtension)
-				Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-				Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
-			Next
-		End If
-
-		If Me.theTextureMdlFileData10 IsNot Nothing Then
-			debugPathFileName = Path.Combine(debugPath, Me.theName + " " + My.Resources.Decompile_DebugTextureMDLFileNameSuffix)
-			Me.NotifySourceModelProgress(ProgressOptions.WritingFileStarted, debugPathFileName)
-			Me.NotifySourceModelProgress(ProgressOptions.WritingFileFinished, debugPathFileName)
-		End If
-
-		Return status
-	End Function
 
 	Public Overrides Function GetTextureFileNames() As List(Of String)
 		Dim textureFileNames As New List(Of String)()
