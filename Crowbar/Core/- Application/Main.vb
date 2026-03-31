@@ -1,4 +1,5 @@
 Imports System.IO
+Imports Steamworks
 
 Module Main
 
@@ -12,43 +13,35 @@ Module Main
 		'TheJob = New WindowsJob()
 		'TheJob.AddProcess(Process.GetCurrentProcess().Handle())
 
-		Dim anExceptionHandler As New AppExceptionHandler()
-		AddHandler Application.ThreadException, AddressOf anExceptionHandler.Application_ThreadException
-		' Set the unhandled exception mode to call Application.ThreadException event for all Windows Forms exceptions.
-		Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
+		Dim args() As String = Environment.GetCommandLineArgs()
 
-		'Dim appUniqueIdentifier As String
-		'Dim appMutex As System.Threading.Mutex
-		'appUniqueIdentifier = Application.ExecutablePath.Replace("\", "_")
-		'appMutex = New System.Threading.Mutex(False, appUniqueIdentifier)
-		'If appMutex.WaitOne(0, False) = False Then
-		'	appMutex.Close()
-		'	appMutex = Nothing
-		'	'MessageBox.Show("Another instance is already running!")
-		'	Win32Api.PostMessage(CType(Win32Api.WindowsMessages.HWND_BROADCAST, IntPtr), appUniqueWindowsMessageIdentifier, IntPtr.Zero, IntPtr.Zero)
-		'Else
-		'NOTE: Use the Windows Vista and later visual styles (such as rounded buttons).
-		Application.EnableVisualStyles()
-		'NOTE: Needed for keeping Label and Button text rendering correctly.
-		Application.SetCompatibleTextRenderingDefault(False)
+		Try
+			TheApp = New App()
+			TheApp.Init()
 
-		AddHandler AppDomain.CurrentDomain.AssemblyResolve, AddressOf ResolveAssemblies
+			Dim input As String = args(1)
+			Dim output As String = args(2)
 
-		TheApp = New App()
-		'Try
-		TheApp.Init()
-		If TheApp.Settings.AppIsSingleInstance Then
-			SingleInstanceApplication.Run(New MainForm(), AddressOf StartupNextInstanceEventHandler)
-		Else
-			Windows.Forms.Application.Run(MainForm)
-		End If
-		'Catch e As Exception
-		'	MsgBox(e.Message)
-		'Finally
-		'End Try
-		TheApp.Dispose()
-		'End If
+			TheApp.Settings.DecompileMdlPathFileName = input
+			TheApp.Settings.DecompileMode = InputOptions.File  ' or Folder / FolderRecursion
+			TheApp.Settings.DecompileUseNonValveUvConversionIsChecked = True
 
+			' Create the object that owns Decompile()
+			Dim decompiler As New Decompiler()
+			decompiler.theOutputPath = output
+			Dim result As StatusMessage = decompiler.Decompile()
+
+			Console.WriteLine("Result: " & result.ToString())
+
+			TheApp.Dispose()
+			Return 0
+
+		Catch ex As Exception
+			Console.WriteLine("Error: " & ex.Message)
+			Return 1
+		End Try
+
+		Console.WriteLine("Usage: studiodec .\model.mdl output\path")
 		Return 0
 	End Function
 
